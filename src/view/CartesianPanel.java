@@ -30,27 +30,30 @@ public class CartesianPanel extends JPanel{
 		return datasets;
 	}
 	
+	public void resetDataset(){
+		datasets.removeAllSeries();
+	}
+	
 	public void addXYSeries(XYSeries series){
 		datasets.addSeries(series);
 	}
 	
 	public void plotChart(){
 		JFreeChart chart = ChartFactory.createScatterPlot("Points", "X coordinates", "Y coordinates", datasets);
-		
 		XYPlot xyPlot = (XYPlot) chart.getPlot();
 		xyPlot.setDomainCrosshairVisible(true);
 		xyPlot.setRenderer(new XYLineAndShapeRenderer(false, true){ //estendo lo shape renderer in modo da distinguere come segnare i punti (e distinguere i centroidi)
-			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Shape getItemShape(int row, int col){
-				if(col==0)
+				if(col==1000)
 					return ShapeUtilities.createDiagonalCross(5, 2);
 				else
 					return super.getItemShape(row, col);
 			}
 			
 		});
-		
 		panel = new ChartPanel(chart);
 		panel.setPreferredSize(new Dimension(1200, 1000));
         this.add(panel);

@@ -17,14 +17,10 @@ public class DataParser {
 		clusters = new ArrayList();
 		this.panel = panel;
 	}
-	
-	
-
 	public ArrayList getClusters() {
 		return clusters;
 	}
-
-
+	@SuppressWarnings("unchecked")
 	public void readFromTxt(String filePath){
 		BufferedReader reader = null;
 	
@@ -36,11 +32,8 @@ public class DataParser {
 	        String line = null;
 	        String[] numbers = null;
 	        int i=0;
-	        int clusterNum=0;
 	        int totPts=0;
-	        boolean isCentroid = false;
 	        //decodifica veramente illeggibile ma l'importante è che funzioni
-	        //bisogna cambiare la logica qua ! sarà: centroide e punti del centroide, centroide e punti del centroide
 	        ArrayList<Double[]> tmpList = new ArrayList<Double[]>();
 	        while ((line = reader.readLine()) != null) {
 		    
@@ -49,17 +42,21 @@ public class DataParser {
 	        		System.out.println("numero di punti: " + totPts);	
 	        	}        	
 	        	else if(line.isEmpty()){
-	        		clusterNum++;
 	        		clusters.add((ArrayList<Double[]>) tmpList.clone());
 	        		tmpList.clear();
 	        		
 	        	}
 	        	else{
 	        		numbers = line.split("\\d\\s+");
-		            val[0] = Double.valueOf(numbers[0].trim());
-		            val[1] = Double.valueOf(numbers[1].trim());	        		
-		            tmpList.add(val.clone());
-		            isCentroid = false;
+	        		try{
+			            val[0] = Double.valueOf(numbers[0].trim());
+			            val[1] = Double.valueOf(numbers[1].trim());
+			            tmpList.add(val.clone());
+	        		}
+	        		catch(NumberFormatException e){
+	        			System.out.println("un centroide è sparito");
+	        		}
+		            
 	        	}
 	        	i++;
 	        }
