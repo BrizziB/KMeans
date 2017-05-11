@@ -43,19 +43,19 @@ public class CartesianPanel extends JPanel{
 		XYPlot xyPlot = (XYPlot) chart.getPlot();
 		xyPlot.setDomainCrosshairVisible(true);
 		xyPlot.setRenderer(new XYLineAndShapeRenderer(false, true){ //estendo lo shape renderer in modo da distinguere come segnare i punti (e distinguere i centroidi)
-			private static final long serialVersionUID = 1L;
+			//private static final long serialVersionUID = 1L;
 
-			@Override
+			@Override//qui non riesco ad selezionare il primo elemento di ogni serie usanod row e col
 			public Shape getItemShape(int row, int col){
-				if(col==1000)
-					return ShapeUtilities.createDiagonalCross(5, 2);
-				else
+				//if(col==0)
+					//return ShapeUtilities.createDiagonalCross(5, 2);
+				//else
 					return super.getItemShape(row, col);
 			}
 			
 		});
 		panel = new ChartPanel(chart);
-		panel.setPreferredSize(new Dimension(1200, 1000));
+		panel.setPreferredSize(new Dimension(900, 600));
         this.add(panel);
 	}
 

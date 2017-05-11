@@ -44,7 +44,7 @@ public class MainWindow {
 		frame = new JFrame();
 		frame.setTitle("K-Means");
 		frame.getContentPane().setBackground(new Color(51, 153, 204));
-		frame.setBounds(100, 100, 1600, 1200);
+		frame.setBounds(100, 100, 1400, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
