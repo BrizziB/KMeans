@@ -35,6 +35,12 @@ public class MainWindow {
 	public JButton getBtnIterate(){
 		return btnIterate;
 	}
+	public JButton getBtnSerial(){
+		return btnRunSerialKmeans;
+	}
+	public JButton getBtnHadoop(){
+		return btnRunHadoopKmeans;
+	}
 	
 	/**
 	 * Initialize the contents of the frame.

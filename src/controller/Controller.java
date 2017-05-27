@@ -3,6 +3,9 @@ package controller;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -18,6 +21,7 @@ public class Controller {
 	private MainWindow window;
 	private static CartesianPanel cartesianPanel;
 	private String filePath = "..//tmp_points";
+	private String lastCalledSolver = "none";
 	
 	public Controller(CartesianPanel cartesianPanel){
 		Controller.cartesianPanel=cartesianPanel;
@@ -47,16 +51,57 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				cartesianPanel.resetDataset();
-				//inserisci da c++ il numero di file, così puoi ciclare
-				completeFilePath = filePath+"//outputFile"+Integer.toString(clickCounter)+".txt";
+				
+				if(lastCalledSolver == "serial_solver"){
+					completeFilePath = filePath+"//outputFile"+Integer.toString(clickCounter)+".txt";
+				}
+				else if(lastCalledSolver =="hadoop_solver"){
+					completeFilePath = filePath+"//iteraz_"+Integer.toString(clickCounter)+"//part-r-00000";
+				}
 				acquireDataset(completeFilePath);
 				window.plotGraph();
 				clickCounter++;
+			}
+		});
+		
+		JButton serialCaller = window.getBtnSerial();
+		serialCaller.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				lastCalledSolver = "serial_solver";
+				try {
+					ProcessBuilder process = new ProcessBuilder("cmd", "/c", "SerialKMeans.exe.lnk");
+					Process p = process.start();
+					p.waitFor();
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JButton hadoopCaller = window.getBtnHadoop();
+		
+		hadoopCaller.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				lastCalledSolver = "hadoop_solver";
 				
+				ProcessBuilder process = new ProcessBuilder("java", "-jar", "../hadoop-kmeans.jar");
+				try {
+					process.start();
+					
+					process.redirectOutput();
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
-			
 		});
+		
 		
 	}
 	

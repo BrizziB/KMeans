@@ -14,10 +14,10 @@ public class DataParser {
 	CartesianPanel panel;
 	
 	public DataParser(CartesianPanel panel){
-		clusters = new ArrayList();
+		clusters = new ArrayList<ArrayList<Double[]>>();
 		this.panel = panel;
 	}
-	public ArrayList getClusters() {
+	public ArrayList<ArrayList<Double[]>> getClusters() {
 		return clusters;
 	}
 	@SuppressWarnings("unchecked")
@@ -36,12 +36,8 @@ public class DataParser {
 	        //decodifica veramente illeggibile ma l'importante è che funzioni
 	        ArrayList<Double[]> tmpList = new ArrayList<Double[]>();
 	        while ((line = reader.readLine()) != null) {
-		    
-	        	if(i==0){
-	        		totPts = Integer.valueOf(line);
-	        		System.out.println("numero di punti: " + totPts);	
-	        	}        	
-	        	else if(line.isEmpty()){
+
+	        	if(line.isEmpty() || line.trim().length()==0){
 	        		clusters.add((ArrayList<Double[]>) tmpList.clone());
 	        		tmpList.clear();
 	        		
